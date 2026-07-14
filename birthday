@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sprint Goal: Celebrate!</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f5f7;
+            color: #172b4d;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        h1 {
+            color: #0052cc;
+            text-align: center;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #5e6c84;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .board {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .column {
+            background-color: #ebecf0;
+            border-radius: 8px;
+            width: 33.33%;
+            min-height: 400px;
+            padding: 10px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .column h3 {
+            margin-top: 0;
+            color: #5e6c84;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        .ticket {
+            background-color: #fff9c4;
+            width: 90%;
+            padding: 15px;
+            border-radius: 3px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            transform: rotate(-2deg);
+        }
+
+        .ticket:hover {
+            transform: scale(1.05) rotate(0deg);
+            box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+        }
+
+        .ticket-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            font-size: 12px;
+            color: #0052cc;
+            margin-bottom: 10px;
+        }
+
+        .story-points {
+            background-color: #dfe1e6;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .pulse {
+            animation: pulse 1.5s infinite;
+            border: 2px dashed #ff5630;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 86, 48, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 86, 48, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 86, 48, 0); }
+        }
+
+        #celebration-message {
+            display: none;
+            background-color: #e3fcef;
+            border: 2px solid #36b37e;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+            text-align: center;
+            max-width: 600px;
+            z-index: 10;
+        }
+
+        #celebration-message h2 {
+            color: #00875a;
+            margin-top: 0;
+        }
+
+        ul {
+            text-align: left;
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .confetti {
+            position: fixed;
+            top: -10px;
+            z-index: 9999;
+            font-size: 24px;
+            user-select: none;
+            pointer-events: none;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🚨 EMERGENCY SPRINT INTRUSION 🚨</h1>
+    <div class="subtitle">Scrum Master, we have a critical aging ticket blocking the release! Please resolve immediately.</div>
+
+    <div class="board">
+        <div class="column" id="todo">
+            <h3>To Do</h3>
+            <!-- Empty -->
+        </div>
+        
+        <div class="column" id="in-progress">
+            <h3>In Progress</h3>
+            
+            <div class="ticket pulse" id="bday-ticket" onclick="moveToDone()">
+                <div class="ticket-header">
+                    <span>BDAY-001</span>
+                    <span class="story-points">🎂</span>
+                </div>
+                <div style="font-weight: bold; margin-bottom: 10px;">As a team, we want to celebrate our Scrum Master, so that they feel appreciated!</div>
+                <div style="font-size: 12px; color: #ff5630; font-weight: bold;">BLOCKER: Click me to move to DONE!</div>
+            </div>
+
+        </div>
+
+        <div class="column" id="done">
+            <h3>Done</h3>
+            <!-- Ticket will move here -->
+        </div>
+    </div>
+
+    <div id="celebration-message">
+        <h2>🎉 SPRINT GOAL ACHIEVED! HAPPY BIRTHDAY! 🎉</h2>
+        <p><strong>Acceptance Criteria Met:</strong></p>
+        <ul>
+            <li>✅ Cake has been deployed to production.</li>
+            <li>✅ The bug where you age another year has been marked as <em>"Working as Intended"</em> / <em>"Won't Fix"</em>.</li>
+            <li>✅ No daily standup is required to eat your slice.</li>
+            <li>✅ Velocity is off the charts because you keep all our blockers away!</li>
+        </ul>
+        <p style="font-size: 1.2rem; margin-top: 20px; font-weight: bold;">Have a fantastic day, from your favorite dev team! 🚀</p>
+    </div>
+
+    <script>
+        function moveToDone() {
+            const ticket = document.getElementById('bday-ticket');
+            const doneColumn = document.getElementById('done');
+            
+            // Remove pulse and update styles
+            ticket.classList.remove('pulse');
+            ticket.style.backgroundColor = '#e3fcef';
+            ticket.style.transform = 'rotate(0deg)';
+            ticket.style.cursor = 'default';
+            ticket.onclick = null; // Remove click event
+            
+            // Update ticket text
+            ticket.innerHTML = `
+                <div class="ticket-header">
+                    <span>BDAY-001</span>
+                    <span class="story-points">💯</span>
+                </div>
+                <div style="font-weight: bold; text-align: center; color: #00875a; font-size: 1.2rem;">
+                    RESOLVED!
+                </div>
+            `;
+            
+            // Move to Done column
+            doneColumn.appendChild(ticket);
+
+            // Show message and trigger confetti
+            document.getElementById('celebration-message').style.display = 'block';
+            startConfetti();
+        }
+
+        function startConfetti() {
+            const emojis = ['🎉', '🎂', '🥳', '🎈', '🍰', '🚀'];
+            
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.classList.add('confetti');
+                    confetti.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+                    
+                    // Randomize horizontal position, size, and animation duration
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                    confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    
+                    document.body.appendChild(confetti);
+                    
+                    // Cleanup after animation
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 5000);
+                }, i * 50); // Stagger the confetti drops
+            }
+        }
+    </script>
+</body>
+</html>
